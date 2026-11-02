@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/java-weekend-project-challenge/CohortHub/CohortHub.iml" filepath="$PROJECT_DIR$/java-weekend-project-challenge/CohortHub/CohortHub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-weekend-project-challenge/SafeBank/SafeBank.iml" filepath="$PROJECT_DIR$/java-weekend-project-challenge/SafeBank/SafeBank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-weekend-project-challenge/StudyVault/StudyVault.iml" filepath="$PROJECT_DIR$/java-weekend-project-challenge/StudyVault/StudyVault.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-weekend-project-challenge/TextLab/TextLab.iml" filepath="$PROJECT_DIR$/java-weekend-project-challenge/TextLab/TextLab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/weekendproject.iml" filepath="$PROJECT_DIR$/.idea/weekendproject.iml" />
+    </modules>
+  </component>
+</project>
