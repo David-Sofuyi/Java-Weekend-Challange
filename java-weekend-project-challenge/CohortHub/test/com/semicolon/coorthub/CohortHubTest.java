@@ -21,33 +21,33 @@ public class CohortHubTest {
 
     @Test
     void testRejectDuplicateIdsAndEmails() {
-        manager.registerLearner("L01", "Alice", "alice@example.com");
+        manager.registerLearner("L01", "David", "david@example.com");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            manager.registerLearner("L01", "Bob", "bob@example.com");
+            manager.registerLearner("L01", "Dav", "dav@example.com");
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            manager.registerLearner("L02", "Charlie", "alice@example.com");
+            manager.registerLearner("L02", "Freshie", "fresh@example.com");
         });
     }
 
     @Test
     void testNoDuplicateGroupMembers() {
-        manager.registerLearner("L01", "Alice", "alice@example.com");
-        manager.createGroup("Java Study Group");
+        manager.registerLearner("L01", "David", "david@example.com");
+        manager.createGroup("coding Study Group");
 
-        manager.addLearnerToGroup("L01", "Java Study Group");
-        manager.addLearnerToGroup("L01", "Java Study Group");
+        manager.addLearnerToGroup("L01", "coding Study Group");
+        manager.addLearnerToGroup("L01", "coding Study Group");
 
-        Set<Learner> members = manager.getGroupMembers("Java Study Group");
+        Set<Learner> members = manager.getGroupMembers("coding Study Group");
         assertEquals(1, members.size());
     }
 
     @Test
     void testSupportQueueFIFO() {
-        manager.registerLearner("L01", "Alice", "alice@example.com");
-        manager.registerLearner("L02", "Bob", "bob@example.com");
+        manager.registerLearner("L01", "David", "david@example.com");
+        manager.registerLearner("L02", "Dav", "dav@example.com");
 
         manager.addToSupportQueue("L02");
         manager.addToSupportQueue("L01");
@@ -65,7 +65,7 @@ public class CohortHubTest {
 
     @Test
     void testCleanUpOnRemove() {
-        manager.registerLearner("L01", "Alice", "alice@example.com");
+        manager.registerLearner("L01", "David", "david@example.com");
         manager.createGroup("Group A");
         manager.addLearnerToGroup("L01", "Group A");
         manager.addToSupportQueue("L01");
@@ -79,9 +79,9 @@ public class CohortHubTest {
 
     @Test
     void testSortingDoesNotCorruptLookup() {
-        manager.registerLearner("L03", "Charlie", "charlie@example.com");
-        manager.registerLearner("L01", "Alice", "alice@example.com");
-        manager.registerLearner("L02", "Bob", "bob@example.com");
+        manager.registerLearner("L03", "Freshie", "fresh@example.com");
+        manager.registerLearner("L01", "David", "david@example.com");
+        manager.registerLearner("L02", "dav", "dav@example.com");
 
         List<Learner> sorted = manager.getSortedLearners();
 
@@ -91,6 +91,6 @@ public class CohortHubTest {
 
         Learner alice = manager.findLearner("L01");
         assertNotNull(alice);
-        assertEquals("Alice", alice.getName());
+        assertEquals("david", alice.getName());
     }
 }
