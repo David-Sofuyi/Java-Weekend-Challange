@@ -10,13 +10,13 @@ Four console-based Java applications built to demonstrate practical use of
 
 ## 👤 Author
 
-**Solomon Adeleke Olaniyan**
-- GitHub: [@bigdev14bit](https://github.com/bigdev14bit)
-- Email: devbig14@gmail.com
+**Sofuyi David**
+- GitHub: [@DavidSofuyi](https://github.com/bigdev14bit)
+- Email: dayodavid54@gmail.com
 
 ---
 
-## 📁 Projects
+##  Projects
 
 | # | Project | Focus | Description |
 |---|---------|-------|-------------|
@@ -29,7 +29,7 @@ Each project folder contains its own `README.md`, source code, JUnit tests, and 
 
 ---
 
-## 🧠 Reflection
+##  Reflection
 
 ### 1. Which project was most challenging, and why?
 **StudyVault** was the most challenging project. Managing the actual file system requires a lot of defensive programming. I had to ensure that filenames were strictly validated to prevent directory traversal attacks (like `../`), handle UTF-8 encoding correctly so emojis didn't break, and manage low-level byte copying with `FileInputStream` and `FileOutputStream` without relying on easy shortcuts like `Files.copy()`. Ensuring files were closed properly using `try-with-resources` was also a crucial learning curve.
@@ -45,7 +45,7 @@ If I had more time, I would:
 
 ---
 
-## 🚀 How to Run
+##  How to Run
 
 ### Prerequisites
 - JDK 21+ (`java -version` to check)
@@ -59,5 +59,5 @@ If I had more time, I would:
 
 ---
 
-## 📜 License
+##  License
 MIT — see [LICENSE](./LICENSE).
