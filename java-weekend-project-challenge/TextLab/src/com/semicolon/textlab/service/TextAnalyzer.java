@@ -1,21 +1,26 @@
+
 package com.semicolon.textlab.service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TextAnalyzer {
+
     private final String originalText;
     private String editedText;
 
     public TextAnalyzer(String text) {
-        this.originalText = (text == null) ? "" : text;
-        this.editedText = this.originalText;
+        originalText = text == null ? "" : text;
+        editedText = originalText;
     }
 
-    public String getOriginalText() { return originalText; }
-    public String getEditedText() { return editedText; }
+    public String getOriginalText() {
+        return originalText;
+    }
+
+    public String getEditedText() {
+        return editedText;
+    }
 
     public int getCharCountWithSpaces() {
         return editedText.length();
@@ -26,100 +31,65 @@ public class TextAnalyzer {
     }
 
     public int getWordCount() {
-        if (editedText.trim().isEmpty()) return 0;
         String[] words = editedText.trim().split("[^a-zA-Z0-9]+");
+
+        if (editedText.trim().isEmpty()) return 0;
+
         return words.length;
     }
 
     public int getSentenceCount() {
-        if (editedText.trim().isEmpty()) return 0;
-        String normalized = editedText.trim().replaceAll("[.!?]+", ".");
-        String[] parts = normalized.split("\\.");
-        int count = 0;
-        for (String part : parts) {
-            if (!part.trim().isEmpty()) {
-                count++;
-            }
+        String text = editedText.trim();
+
+        if (text.isEmpty() || text.matches("[^a-zA-Z0-9]+")) {
+            return 0;
         }
-        return count;
+
+        return text.split("[.!?]+\\s*|(?<=[.!?])\\s+").length;
     }
 
     public void cleanWhitespace() {
-        if (editedText.trim().isEmpty()) {
-            editedText = "";
-            return;
-        }
-
-        StringBuilder builder = new StringBuilder();
-        boolean lastWasSpace = false;
-
-        for (char charac : editedText.trim().toCharArray()) {
-            if (Character.isWhitespace(charac)) {
-                if (!lastWasSpace) {
-                    builder.append(' ');
-                    lastWasSpace = true;
-                }
-            } else {
-                builder.append(charac);
-                lastWasSpace = false;
-            }
-        }
-        editedText = builder.toString();
+        editedText = editedText.trim().replaceAll("\\s+", " ");
     }
 
-    public int countWordFrequency(String targetWord) {
-        if (targetWord == null || targetWord.trim().isEmpty()) return 0;
+    public int countWordFrequency(String word) {
+        if (word == null || word.trim().isEmpty()) return 0;
 
-        Pattern pattern = Pattern.compile("\\b" + Pattern.quote(targetWord.trim()) + "\\b", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(editedText);
-
+        String[] words = editedText.split("[^a-zA-Z0-9]+");
         int count = 0;
-        while (matcher.find()) {
-            count++;
+
+        for (String current : words) {
+            if (current.equalsIgnoreCase(word.trim())) {
+                count++;
+            }
         }
+
         return count;
     }
 
-    public void replaceWord(String targetWord, String replacementWord) {
-        if (targetWord == null || targetWord.trim().isEmpty()) return;
-
-        Pattern pattern = Pattern.compile("\\b" + Pattern.quote(targetWord.trim()) + "\\b", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(editedText);
-
-        StringBuilder builder = new StringBuilder();
-        int lastEnd = 0;
-
-        while (matcher.find()) {
-            builder.append(editedText, lastEnd, matcher.start());
-            builder.append(replacementWord);
-            lastEnd = matcher.end();
+    public void replaceWord(String oldWord, String newWord) {
+        if (oldWord == null || oldWord.trim().isEmpty() || newWord == null) {
+            return;
         }
-        builder.append(editedText.substring(lastEnd));
 
-        editedText = builder.toString();
+        editedText = editedText.replaceAll(
+                "(?i)\\b" + java.util.regex.Pattern.quote(oldWord.trim()) + "\\b",
+                java.util.regex.Matcher.quoteReplacement(newWord)
+        );
     }
 
     public boolean isPalindrome() {
-        String clean = editedText.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        if (clean.isEmpty()) return false;
+        String text = editedText.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-        int left = 0;
-        int right = clean.length() - 1;
-        while (left < right) {
-            if (clean.charAt(left) != clean.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
-        }
-        return true;
+        if (text.isEmpty()) return false;
+
+        return text.equals(new StringBuilder(text).reverse().toString());
     }
 
     public Set<String> getLongestWords() {
         Set<String> longestWords = new HashSet<>();
-        if (editedText.trim().isEmpty()) return longestWords;
 
-        String[] words = editedText.trim().split("[^a-zA-Z0-9]+");
+        String[] words = editedText.split("[^a-zA-Z0-9]+");
         int maxLength = 0;
 
         for (String word : words) {
@@ -127,10 +97,11 @@ public class TextAnalyzer {
                 maxLength = word.length();
                 longestWords.clear();
                 longestWords.add(word);
-            } else if (word.length() == maxLength) {
+            } else if (word.length() == maxLength && !word.isEmpty()) {
                 longestWords.add(word);
             }
         }
+
         return longestWords;
     }
 }
